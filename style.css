@@ -1,48 +1,43 @@
-/* General styles for layout */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 20px;
-  color: #333;
-}
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
 
-/* Title Styling */
-h1 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-}
+  h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
 
-/* Webcam Styling */
-#webcam-container {
-  margin: 20px auto;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  #webcam-container {
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
 
-/* Message Display */
-#message {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 20px 0;
-  padding: 10px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
+  #message {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
 
-/* Button Styles */
-.start-button {
+  .start-button {
     background-color: #3498db;
     color: white;
     border: none;
@@ -52,25 +47,24 @@ h1 {
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   .start-button:hover {
     background-color: #2980b9;
   }
-  
-  /* Waste Bins Container */
+
   .bins-container {
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
   }
-  /* Base Bin Styles */
+
   .bin {
     width: 120px;
     height: 160px;
     position: relative;
     transition: transform 0.3s ease;
   }
-  
+
   .bin-body {
     width: 100px;
     height: 130px;
@@ -82,7 +76,39 @@ h1 {
     left: 10px;
     overflow: hidden;
   }
-  
+
+  .bin-lid {
+    width: 110px;
+    height: 15px;
+    background-color: #333;
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    border-radius: 5px 5px 0 0;
+    transform-origin: top;
+    transition: transform 0.5s ease;
+  }
+
+  .bin-handle {
+    width: 30px;
+    height: 5px;
+    background-color: #333;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+  }
+
+  .bin-icon {
+    font-size: 30px;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+  }
+
   .bin-label {
     font-weight: bold;
     margin-top: 5px;
@@ -90,4 +116,79 @@ h1 {
     bottom: -25px;
     width: 100%;
     text-align: center;
+  }
+
+  /* Specific bin styles */
+  #organic-bin .bin-body {
+    background-color: #e8f5e9;
+    border-color: #2e7d32;
+  }
+  
+  #organic-bin .bin-lid {
+    background-color: #2e7d32;
+  }
+
+  #plastic-bin .bin-body {
+    background-color: #e3f2fd;
+    border-color: #1565c0;
+  }
+  
+  #plastic-bin .bin-lid {
+    background-color: #1565c0;
+  }
+
+  #paper-bin .bin-body {
+    background-color: #fff3e0;
+    border-color: #e65100;
+  }
+  
+  #paper-bin .bin-lid {
+    background-color: #e65100;
+  }
+
+  .active-bin .bin-lid {
+    transform: rotateX(45deg);
+  }
+
+  .active-bin .bin-body {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  #organic-bin.active-bin .bin-body {
+    background-color: #81c784;
+  }
+
+  #plastic-bin.active-bin .bin-body {
+    background-color: #64b5f6;
+  }
+
+  #paper-bin.active-bin .bin-body {
+    background-color: #ffb74d;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 18px;
+  }
+
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+  }
+
+  .status-dot.active {
+    background-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+  }
+
+  .detection-confidence {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 5px;
   }
