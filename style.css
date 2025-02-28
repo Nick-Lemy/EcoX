@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Button Styles */
 .start-button {
   background-color: #3498db;
@@ -48,3 +49,48 @@
   width: 100%;
   text-align: center;
 }
+=======
+/* General styles for layout */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Title Styling */
+  h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  /* Webcam Styling */
+  #webcam-container {
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Message Display */
+  #message {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+>>>>>>> 70625a091b90caba735cd5313b6f1c9fd08a2918
