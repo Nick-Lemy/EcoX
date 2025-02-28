@@ -1,133 +1,101 @@
-// Ensure the script runs only after the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-  // Fix 1: Wrap all event listeners inside DOMContentLoaded
-  let model, webcam;
-  let isRunning = false;
-  let lastPrediction = null;
-  let stats = {
-    totalItems: 0,
-    organicItems: 0,
-    plasticItems: 0,
-    paperItems: 0,
-  };
+const URL = "https://teachablemachine.withgoogle.com/models/1iyHm8kQn/";
+    let model, webcam;
+    let isRunning = false;
 
-  // Fix 2: Add event listeners for buttons instead of inline HTML events
-  document.getElementById("start-button").addEventListener("click", init);
-  document.querySelectorAll(".bin").forEach((bin) => {
-    bin.addEventListener("click", function () {
-      playInteractionAnimation(this.id);
-    });
-    bin.addEventListener("keypress", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        playInteractionAnimation(this.id);
-      }
-    });
-  });
-});
-
-
-// Initialize Teachable Machine model & webcam
-async function init() {
-    try {
+    async function init() {
+      try {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
+        
         document.getElementById("status-text").innerText = "Loading model...";
+        
         model = await tmImage.load(modelURL, metadataURL);
+        
         document.getElementById("status-text").innerText = "Setting up camera...";
+        
         webcam = new tmImage.Webcam(200, 200, true);
         await webcam.setup();
         await webcam.play();
+        
         document.getElementById("webcam-container").appendChild(webcam.canvas);
+        
         document.getElementById("status-dot").classList.add("active");
         document.getElementById("status-text").innerText = "Camera active - detecting items";
+        
         isRunning = true;
         document.querySelector(".start-button").innerText = "Restart Camera";
         window.requestAnimationFrame(loop);
-    } catch (error) {
+      } catch (error) {
         console.error(error);
         document.getElementById("status-text").innerText = "Error: " + error.message;
-    }
-}
-
-async function loop() {
-    if (!isRunning) return;
-    webcam.update();
-    await predict();
-    window.requestAnimationFrame(loop);
-}
-
-// Bin interactions (click & keyboard support)
-function playInteractionAnimation(binId) {
-  const bin = document.getElementById(binId);
-  bin.classList.add("shake-bin");
-  setTimeout(() => {
-      bin.classList.remove("shake-bin");
-  }, 600);
-}
-
-// Process classification results and update UI
-function applyFeedback(prediction) {
-  resetBins();
-  const messageDiv = document.getElementById("message");
-  const confidenceDiv = document.getElementById("confidence");
-  let highestConfidence = 0;
-  let predictedClass = "";
-  prediction.forEach(p => {
-      if (p.probability > highestConfidence) {
-          highestConfidence = p.probability;
-          predictedClass = p.className;
       }
-  });
-  if (highestConfidence < 0.70) {
-      messageDiv.textContent = "Awaiting detection...";
-      confidenceDiv.textContent = "";
-      return;
-  }
-  if (lastPrediction === predictedClass) return;
-  stats.totalItems++;
-  document.getElementById("total-items").textContent = stats.totalItems;
-  lastPrediction = predictedClass;
-  const binMap = {
-      "Organic": "organic-bin",
-      "Plastic": "plastic-bin",
-      "Paper": "paper-bin"
-  };
-  if (binMap[predictedClass]) {
-      document.getElementById(binMap[predictedClass]).classList.add("active-bin");
-      document.body.classList.add(${predictedClass.toLowerCase()}-mode);
-      messageDiv.textContent = ${predictedClass} Waste Detected;
-      stats[${predictedClass.toLowerCase()}Items]++;
-      document.getElementById(${predictedClass.toLowerCase()}-count).textContent = stats[${predictedClass.toLowerCase()}Items];
-  }
-  confidenceDiv.textContent = Confidence: ${Math.round(highestConfidence * 100)}%;
-  playInteractionAnimation(binMap[predictedClass]);
-}
-
-// Keyboard shortcuts for control
-document.addEventListener("keydown", (e) => {
-    if (e.key === " " && e.target === document.body) {
-        e.preventDefault();
-        init();
     }
-    if (e.key === "Escape" && isRunning) {
-        webcam.stop();
-        isRunning = false;
-        document.getElementById("status-dot").classList.remove("active");
-        document.getElementById("status-text").innerText = "Camera stopped";
-        document.querySelector(".start-button").innerText = "Start Camera";
+
+    async function loop() {
+      if (!isRunning) return;
+      
+      webcam.update();
+      await predict();
+      window.requestAnimationFrame(loop);
     }
-});
 
-// Cleanup webcam when page is closed
-window.addEventListener("beforeunload", () => {
-    if (webcam) webcam.stop();
-});
+    // Reset all bins to inactive state
+    function resetBins() {
+      document.getElementById("organic-bin").classList.remove("active-bin");
+      document.getElementById("plastic-bin").classList.remove("active-bin");
+      document.getElementById("paper-bin").classList.remove("active-bin");
+      document.getElementById("message").style.backgroundColor = "";
+      document.getElementById("message").style.color = "#333";
+    }
 
-// Responsive behavior for bins
-function handleResize() {
-    document.querySelectorAll(".bin").forEach(bin => {
-        bin.style.transform = window.innerWidth < 768 ? "scale(0.9)" : "scale(1)";
-    });
-}
-window.addEventListener("resize", handleResize);
-handleResize();
+    async function predict() {
+      const prediction = await model.predict(webcam.canvas);
+      let highestPrediction = prediction.reduce((prev, current) => 
+        (prev.probability > current.probability) ? prev : current
+      );
+
+      // Reset bins before activating the new one
+      resetBins();
+
+      let activeBin = null;
+      let messageColor = "";
+      let message = "";
+
+      if (highestPrediction.probability > 0.7) {
+        switch (highestPrediction.className) {
+          case "Food":
+            activeBin = "organic-bin";
+            message = "Throw in Organic Bin";
+            messageColor = "rgba(76, 175, 80, 0.2)";
+            document.getElementById("message").style.color = "#1b5e20";
+            break;
+          case "Plastic":
+            activeBin = "plastic-bin";
+            message = "Throw in Plastic Bin";
+            messageColor = "rgba(33, 150, 243, 0.2)";
+            document.getElementById("message").style.color = "#0d47a1";
+            break;
+          case "Paper and Cardboard":
+            activeBin = "paper-bin";
+            message = "Throw in Paper Bin";
+            messageColor = "rgba(255, 152, 0, 0.2)";
+            document.getElementById("message").style.color = "#e65100";
+            break;
+          default:
+            message = "Unknown Item";
+        }
+
+        if (activeBin) {
+          document.getElementById(activeBin).classList.add("active-bin");
+          document.getElementById("message").style.backgroundColor = messageColor;
+        }
+      } else {
+        message = "Awaiting clear detection...";
+      }
+
+      document.getElementById("message").innerText = message;
+      document.getElementById("confidence").innerText = 
+        highestPrediction.probability > 0 
+          ? `Confidence: ${(highestPrediction.probability * 100).toFixed(1)}%` 
+          : "";
+    }
