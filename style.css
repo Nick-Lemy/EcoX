@@ -1,194 +1,373 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f5f5f5;
+* {
     margin: 0;
-    padding: 20px;
-    color: #333;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-
+  
+  body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+  }
+  
   .container {
     max-width: 800px;
     margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  h1 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-  }
-
-  #webcam-container {
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  #message {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 20px 0;
-    padding: 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-
-  .start-button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-
-  .start-button:hover {
-    background-color: #2980b9;
-  }
-
-  .bins-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
-  }
-
-  .bin {
-    width: 120px;
-    height: 160px;
-    position: relative;
-    transition: transform 0.3s ease;
-  }
-
-  .bin-body {
-    width: 100px;
-    height: 130px;
-    background-color: #e0e0e0;
-    border: 2px solid #333;
-    border-radius: 5px 5px 0 0;
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    overflow: hidden;
-  }
-
-  .bin-lid {
-    width: 110px;
-    height: 15px;
-    background-color: #333;
-    position: absolute;
-    top: 15px;
-    left: 5px;
-    border-radius: 5px 5px 0 0;
-    transform-origin: top;
-    transition: transform 0.5s ease;
-  }
-
-  .bin-handle {
-    width: 30px;
-    height: 5px;
-    background-color: #333;
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 5px;
-  }
-
-  .bin-icon {
-    font-size: 30px;
-    position: absolute;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.5;
-  }
-
-  .bin-label {
-    font-weight: bold;
-    margin-top: 5px;
-    position: absolute;
-    bottom: -25px;
-    width: 100%;
+    padding: 2rem;
     text-align: center;
   }
-
-  /* Specific bin styles */
-  #organic-bin .bin-body {
-    background-color: #e8f5e9;
-    border-color: #2e7d32;
+  
+  h1 {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-size: 2.2rem;
   }
   
-  #organic-bin .bin-lid {
-    background-color: #2e7d32;
-  }
-
-  #plastic-bin .bin-body {
-    background-color: #e3f2fd;
-    border-color: #1565c0;
-  }
-  
-  #plastic-bin .bin-lid {
-    background-color: #1565c0;
-  }
-
-  #paper-bin .bin-body {
-    background-color: #fff3e0;
-    border-color: #e65100;
-  }
-  
-  #paper-bin .bin-lid {
-    background-color: #e65100;
-  }
-
-  .active-bin .bin-lid {
-    transform: rotateX(45deg);
-  }
-
-  .active-bin .bin-body {
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  }
-
-  #organic-bin.active-bin .bin-body {
-    background-color: #81c784;
-  }
-
-  #plastic-bin.active-bin .bin-body {
-    background-color: #64b5f6;
-  }
-
-  #paper-bin.active-bin .bin-body {
-    background-color: #ffb74d;
-  }
-
   .status-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0;
-    font-size: 18px;
+    margin-bottom: 1.5rem;
   }
-
+  
   .status-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #ccc;
-    margin-right: 10px;
+    background-color: #e74c3c;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
   }
-
+  
   .status-dot.active {
-    background-color: #4CAF50;
-    box-shadow: 0 0 5px #4CAF50;
+    background-color: #2ecc71;
+    box-shadow: 0 0 8px #2ecc71;
   }
-
-  .detection-confidence {
-    font-size: 14px;
+  
+  #status-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .start-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .start-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .start-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  #webcam-container {
+    margin: 0 auto 1.5rem auto;
+    max-width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  #webcam-container canvas {
+    display: block;
+  }
+  
+  #message {
+    font-size: 1.2rem;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  #confidence {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+  }
+  
+  .bins-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  
+  .bin {
+    position: relative;
+    width: 120px;
+    height: 160px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .bin:hover .bin-lid {
+    transform: translateX(-50%) rotateX(30deg);
+  }
+  
+  .bin:hover .bin-body {
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .bin:hover .bin-icon {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  
+  .bin-handle {
+    position: absolute;
+    width: 40px;
+    height: 8px;
+    background-color: #95a5a6;
+    border-radius: 4px;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  
+  .bin-lid {
+    position: absolute;
+    width: 100px;
+    height: 15px;
+    background-color: #bdc3c7;
+    border-radius: 5px 5px 0 0;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    transform-origin: center bottom;
+    transition: transform 0.4s ease;
+    z-index: 1;
+  }
+  
+  .bin-body {
+    position: absolute;
+    width: 90px;
+    height: 110px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .bin-icon {
+    font-size: 2rem;
     opacity: 0.7;
-    margin-top: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .bin-label {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  /* Bin-specific colors */
+  #organic-bin .bin-body {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+  }
+  
+  #plastic-bin .bin-body {
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+  }
+  
+  #paper-bin .bin-body {
+    background-color: #fff3e0;
+    border: 1px solid #ffe0b2;
+  }
+  
+  /* Active bin state */
+  .active-bin .bin-lid {
+    transform: translateX(-50%) rotateX(45deg);
+  }
+  
+  .active-bin .bin-body {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  #organic-bin.active-bin .bin-body {
+    background-color: #c8e6c9;
+    border-color: #81c784;
+  }
+  
+  #plastic-bin.active-bin .bin-body {
+    background-color: #bbdefb;
+    border-color: #64b5f6;
+  }
+  
+  #paper-bin.active-bin .bin-body {
+    background-color: #ffe0b2;
+    border-color: #ffb74d;
+  }
+  
+  .active-bin .bin-icon {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  .detection-confidence {
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  
+  /* Recycling Tips Section */
+  .recycling-tips {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: all 0.3s ease;
+  }
+  
+  .recycling-tips:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+  }
+  
+  .recycling-tips h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.2rem;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .recycling-tips h2:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #3498db;
+    border-radius: 3px;
+  }
+  
+  .tip {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .tip:last-child {
+    margin-bottom: 0;
+  }
+  
+  .tip:hover {
+    transform: translateX(5px);
+  }
+  
+  .tip h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .tip p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  /* Tip specific colors */
+  .tip-organic {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left: 4px solid #4caf50;
+  }
+  
+  .tip-organic h3 {
+    color: #2e7d32;
+  }
+  
+  .tip-plastic {
+    background-color: rgba(33, 150, 243, 0.1);
+    border-left: 4px solid #2196f3;
+  }
+  
+  .tip-plastic h3 {
+    color: #1565c0;
+  }
+  
+  .tip-paper {
+    background-color: rgba(255, 152, 0, 0.1);
+    border-left: 4px solid #ff9800;
+  }
+  
+  .tip-paper h3 {
+    color: #e65100;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .container {
+      padding: 1rem;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    .bins-container {
+      gap: 1rem;
+    }
+    
+    .bin {
+      width: 100px;
+      height: 140px;
+    }
+    
+    .bin-body {
+      width: 80px;
+      height: 100px;
+    }
+    
+    .recycling-tips h2 {
+      font-size: 1.5rem;
+    }
+    
+    .tip {
+      padding: 0.8rem;
+    }
+    
+    .tip h3 {
+      font-size: 1.1rem;
+    }
   }
