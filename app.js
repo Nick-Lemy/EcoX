@@ -24,3 +24,34 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+
+// Initialize Teachable Machine model & webcam
+async function init() {
+    try {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        document.getElementById("status-text").innerText = "Loading model...";
+        model = await tmImage.load(modelURL, metadataURL);
+        document.getElementById("status-text").innerText = "Setting up camera...";
+        webcam = new tmImage.Webcam(200, 200, true);
+        await webcam.setup();
+        await webcam.play();
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        document.getElementById("status-dot").classList.add("active");
+        document.getElementById("status-text").innerText = "Camera active - detecting items";
+        isRunning = true;
+        document.querySelector(".start-button").innerText = "Restart Camera";
+        window.requestAnimationFrame(loop);
+    } catch (error) {
+        console.error(error);
+        document.getElementById("status-text").innerText = "Error: " + error.message;
+    }
+}
+
+async function loop() {
+    if (!isRunning) return;
+    webcam.update();
+    await predict();
+    window.requestAnimationFrame(loop);
+}
