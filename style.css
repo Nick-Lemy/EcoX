@@ -20,3 +20,31 @@
   justify-content: space-around;
   margin-top: 30px;
 }
+/* Base Bin Styles */
+.bin {
+  width: 120px;
+  height: 160px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.bin-body {
+  width: 100px;
+  height: 130px;
+  background-color: #e0e0e0;
+  border: 2px solid #333;
+  border-radius: 5px 5px 0 0;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  overflow: hidden;
+}
+
+.bin-label {
+  font-weight: bold;
+  margin-top: 5px;
+  position: absolute;
+  bottom: -25px;
+  width: 100%;
+  text-align: center;
+}
