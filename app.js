@@ -40,3 +40,24 @@ async function init() {
       "Error: " + error.message;
   }
 }
+
+async function loop() {
+  if (!isRunning) return; // Stop loop if the system is inactive
+
+  webcam.update(); // Refresh webcam feed
+  await predict(); // Run waste classification
+
+  // Request the next frame to keep running
+  window.requestAnimationFrame(loop);
+}
+
+// Reset all bins to their default state (remove highlights)
+function resetBins() {
+  document.getElementById("organic-bin").classList.remove("active-bin");
+  document.getElementById("plastic-bin").classList.remove("active-bin");
+  document.getElementById("paper-bin").classList.remove("active-bin");
+
+  // Reset message background and text color
+  document.getElementById("message").style.backgroundColor = "";
+  document.getElementById("message").style.color = "#333";
+}
