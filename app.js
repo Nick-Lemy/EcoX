@@ -61,3 +61,62 @@ function resetBins() {
   document.getElementById("message").style.backgroundColor = "";
   document.getElementById("message").style.color = "#333";
 }
+
+async function predict() {
+    // Run classification on the current webcam frame
+    const prediction = await model.predict(webcam.canvas);
+  
+    // Find the highest confidence prediction
+    let highestPrediction = prediction.reduce((prev, current) => 
+      (prev.probability > current.probability) ? prev : current
+    );
+  
+    // Reset bins before setting the new active bin
+    resetBins();
+  
+    let activeBin = null;
+    let messageColor = "";
+    let message = "";
+  
+    // Process classification results if confidence is above 70%
+    if (highestPrediction.probability > 0.7) {
+      switch (highestPrediction.className) {
+        case "Food":
+          activeBin = "organic-bin";
+          message = "Throw in Organic Bin";
+          messageColor = "rgba(76, 175, 80, 0.2)"; // Green
+          document.getElementById("message").style.color = "#1b5e20";
+          break;
+        case "Plastic":
+          activeBin = "plastic-bin";
+          message = "Throw in Plastic Bin";
+          messageColor = "rgba(33, 150, 243, 0.2)"; // Blue
+          document.getElementById("message").style.color = "#0d47a1";
+          break;
+        case "Paper and Cardboard":
+          activeBin = "paper-bin";
+          message = "Throw in Paper Bin";
+          messageColor = "rgba(255, 152, 0, 0.2)"; // Orange
+          document.getElementById("message").style.color = "#e65100";
+          break;
+        default:
+          message = "Unknown Item";
+      }
+  
+      // Highlight the correct bin if detected
+      if (activeBin) {
+        document.getElementById(activeBin).classList.add("active-bin");
+        document.getElementById("message").style.backgroundColor = messageColor;
+      }
+    } else {
+      message = "Awaiting clear detection...";
+    }
+  
+    // Display the detection result and confidence score
+    document.getElementById("message").innerText = message;
+    document.getElementById("confidence").innerText = 
+      highestPrediction.probability > 0 
+        ? `Confidence: ${(highestPrediction.probability * 100).toFixed(1)}%` 
+        : "";
+  }
+  
