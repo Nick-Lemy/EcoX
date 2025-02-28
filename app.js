@@ -55,3 +55,50 @@ async function loop() {
     await predict();
     window.requestAnimationFrame(loop);
 }
+
+// Bin interactions (click & keyboard support)
+function playInteractionAnimation(binId) {
+  const bin = document.getElementById(binId);
+  bin.classList.add("shake-bin");
+  setTimeout(() => {
+      bin.classList.remove("shake-bin");
+  }, 600);
+}
+
+// Process classification results and update UI
+function applyFeedback(prediction) {
+  resetBins();
+  const messageDiv = document.getElementById("message");
+  const confidenceDiv = document.getElementById("confidence");
+  let highestConfidence = 0;
+  let predictedClass = "";
+  prediction.forEach(p => {
+      if (p.probability > highestConfidence) {
+          highestConfidence = p.probability;
+          predictedClass = p.className;
+      }
+  });
+  if (highestConfidence < 0.70) {
+      messageDiv.textContent = "Awaiting detection...";
+      confidenceDiv.textContent = "";
+      return;
+  }
+  if (lastPrediction === predictedClass) return;
+  stats.totalItems++;
+  document.getElementById("total-items").textContent = stats.totalItems;
+  lastPrediction = predictedClass;
+  const binMap = {
+      "Organic": "organic-bin",
+      "Plastic": "plastic-bin",
+      "Paper": "paper-bin"
+  };
+  if (binMap[predictedClass]) {
+      document.getElementById(binMap[predictedClass]).classList.add("active-bin");
+      document.body.classList.add(${predictedClass.toLowerCase()}-mode);
+      messageDiv.textContent = ${predictedClass} Waste Detected;
+      stats[${predictedClass.toLowerCase()}Items]++;
+      document.getElementById(${predictedClass.toLowerCase()}-count).textContent = stats[${predictedClass.toLowerCase()}Items];
+  }
+  confidenceDiv.textContent = Confidence: ${Math.round(highestConfidence * 100)}%;
+  playInteractionAnimation(binMap[predictedClass]);
+}
