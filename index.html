@@ -1,25 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Character set and viewport configuration for proper rendering and responsive design -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Waste Management</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Waste Management</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-  <link rel="stylesheet" href="./style.css">
-</head>
+    <!-- TensorFlow.js library - Core ML functionality for running models in the browser -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 
-<body>
-  <!-- Added Header -->
-  <header>
-    <h1>Smart Waste Management System</h1>
-  </header>
+    <!-- Teachable Machine Image library - Simplifies using custom image classification models -->
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 
-  <div class="container">
-    <!-- Existing content remains -->
-  </div>
+    <!-- Custom styles for the application interface -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-  <script src="./app.js"></script>
-</body>
+  <body>
+    <!-- Main container for all application content -->
+    <div class="container">
+      <!-- Application title -->
+      <h1>Smart Waste Management System</h1>
+
+      <!-- Camera status indicator section - shows if camera is active or not -->
+      <div class="status-indicator">
+        <!-- Visual indicator dot that changes color based on camera status -->
+        <div id="status-dot" class="status-dot"></div>
+        <!-- Text description of current camera status -->
+        <div id="status-text">Camera inactive</div>
+      </div>
+
+      <!-- Button to initialize or restart the camera and ML model -->
+      <button class="start-button" onclick="init()">Start Camera</button>
+
+      <!-- Container for the webcam feed - populated by JavaScript -->
+      <div id="webcam-container"></div>
+
+      <!-- Display area for waste classification result messages -->
+      <div id="message">Awaiting detection...</div>
+      <!-- Display area for confidence level of the classification -->
+      <div id="confidence" class="detection-confidence"></div>
+
+      <!-- Container for the visual bin representations -->
+      <div class="bins-container">
+        <!-- Organic waste bin with visual components -->
+        <div class="bin" id="organic-bin">
+          <!-- Visual elements that make up the bin design -->
+          <div class="bin-handle"></div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <!-- Recycling icon for organic waste -->
+            <div class="bin-icon">♻️</div>
+          </div>
+          <!-- Label for the organic waste bin -->
+          <div class="bin-label">Organic</div>
+        </div>
+
+        <!-- Plastic waste bin with visual components -->
+        <div class="bin" id="plastic-bin">
+          <div class="bin-handle"></div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <!-- Cup icon representing plastic waste -->
+            <div class="bin-icon">🥤</div>
+          </div>
+          <!-- Label for the plastic waste bin -->
+          <div class="bin-label">Plastic</div>
+        </div>
+
+        <!-- Paper waste bin with visual components -->
+        <div class="bin" id="paper-bin">
+          <div class="bin-handle"></div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <!-- Paper document icon representing paper waste -->
+            <div class="bin-icon">📄</div>
+          </div>
+          <!-- Label for the paper waste bin -->
+          <div class="bin-label">Paper</div>
+        </div>
+      </div>
+
+      <!-- Educational section providing recycling tips for different materials -->
+      <div class="recycling-tips">
+        <!-- Section header -->
+        <h2>Recycling Tips</h2>
+
+        <!-- Tip card for organic waste with color-coding matching the bin -->
+        <div class="tip tip-organic">
+          <h3>Organic Waste</h3>
+          <p>
+            Compost organic waste to reduce methane emissions from landfills and
+            create nutrient-rich soil for plants.
+          </p>
+        </div>
+
+        <!-- Tip card for plastic waste with color-coding matching the bin -->
+        <div class="tip tip-plastic">
+          <h3>Plastic Recycling</h3>
+          <p>
+            Rinse plastic containers before recycling and check the recycling
+            number on the bottom to ensure it's accepted by your local facility.
+          </p>
+        </div>
+
+        <!-- Tip card for paper waste with color-coding matching the bin -->
+        <div class="tip tip-paper">
+          <h3>Paper Recycling</h3>
+          <p>
+            Remove any plastic windows or metal bindings from paper items before
+            recycling. Shredded paper can often be composted instead of
+            recycled.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom JavaScript that handles the webcam, ML model, and UI interactions -->
+    <script src="./app.js"></script>
+  </body>
 </html>
