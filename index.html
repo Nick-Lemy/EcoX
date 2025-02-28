@@ -5,27 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Waste Management</title>
+
+  <!-- Import TensorFlow.js and Teachable Machine for AI-based waste classification -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+  <!-- Link external stylesheet -->
   <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
   <div class="container">
     <h1>Smart Waste Management System</h1>
-    
+
+    <!-- Camera Status Indicator -->
     <div class="status-indicator">
       <div id="status-dot" class="status-dot"></div>
       <div id="status-text">Camera inactive</div>
     </div>
-    
+
+    <!-- Button to activate the camera -->
     <button class="start-button" onclick="init()">Start Camera</button>
-    
+
+    <!-- Webcam Feed Container -->
     <div id="webcam-container"></div>
-    
+
+    <!-- Message Display for AI Detection -->
     <div id="message">Awaiting detection...</div>
     <div id="confidence" class="detection-confidence"></div>
-    
+
+    <!-- Waste Bin Categories -->
     <div class="bins-container">
       <div class="bin" id="organic-bin">
         <div class="bin-handle"></div>
@@ -35,7 +44,7 @@
         </div>
         <div class="bin-label">Organic</div>
       </div>
-      
+
       <div class="bin" id="plastic-bin">
         <div class="bin-handle"></div>
         <div class="bin-lid"></div>
@@ -44,7 +53,7 @@
         </div>
         <div class="bin-label">Plastic</div>
       </div>
-      
+
       <div class="bin" id="paper-bin">
         <div class="bin-handle"></div>
         <div class="bin-lid"></div>
@@ -55,9 +64,6 @@
       </div>
     </div>
   </div>
-
-  <script src="./app.js">
-  
-  </script>
 </body>
+
 </html>
