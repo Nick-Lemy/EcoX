@@ -102,3 +102,32 @@ function applyFeedback(prediction) {
   confidenceDiv.textContent = Confidence: ${Math.round(highestConfidence * 100)}%;
   playInteractionAnimation(binMap[predictedClass]);
 }
+
+// Keyboard shortcuts for control
+document.addEventListener("keydown", (e) => {
+    if (e.key === " " && e.target === document.body) {
+        e.preventDefault();
+        init();
+    }
+    if (e.key === "Escape" && isRunning) {
+        webcam.stop();
+        isRunning = false;
+        document.getElementById("status-dot").classList.remove("active");
+        document.getElementById("status-text").innerText = "Camera stopped";
+        document.querySelector(".start-button").innerText = "Start Camera";
+    }
+});
+
+// Cleanup webcam when page is closed
+window.addEventListener("beforeunload", () => {
+    if (webcam) webcam.stop();
+});
+
+// Responsive behavior for bins
+function handleResize() {
+    document.querySelectorAll(".bin").forEach(bin => {
+        bin.style.transform = window.innerWidth < 768 ? "scale(0.9)" : "scale(1)";
+    });
+}
+window.addEventListener("resize", handleResize);
+handleResize();
